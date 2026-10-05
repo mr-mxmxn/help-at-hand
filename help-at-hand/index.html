@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Help at Hand — Telemedicine</title>
+<meta name="description" content="Connect with healthcare professionals from wherever you are.">
+<meta name="theme-color" content="#087f78">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; manifest-src 'self'; base-uri 'self'; form-action 'self'">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Help at Hand">
+<style>
+:root{--teal:#087f78;--teal-d:#075e59;--ink:#17343b;--muted:#5d7379;--line:#e2ebec;--canvas:#f2f7f7;--tint:#e8f6f4;--red:#b42318}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;padding:24px 14px;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:linear-gradient(135deg,#e9f4f3,#f5f8fa 55%,#eaf2f5);color:var(--ink);line-height:1.5}
+.app{max-width:460px;min-height:calc(100dvh - 48px);margin:0 auto;background:var(--canvas);border:1px solid var(--line);border-radius:30px;overflow:hidden;box-shadow:0 24px 70px rgba(21,57,62,.15);display:flex;flex-direction:column}
+header{background:linear-gradient(135deg,var(--teal),var(--teal-d));color:#fff;padding:calc(20px + env(safe-area-inset-top)) 20px 20px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{width:62px;height:auto;max-height:46px;object-fit:contain;border-radius:10px;background:#fff;padding:3px}
+.brand div{flex:1;min-width:0}
+header h1{margin:0;font-size:22px;letter-spacing:-.4px;line-height:1.2}
+header p{margin:3px 0 0;font-size:12.5px;color:rgba(255,255,255,.85);line-height:1.35}
+.hbtns{display:flex;gap:6px}
+.hbtn{border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.12);color:#fff;border-radius:10px;padding:7px 10px;font-size:12px;cursor:pointer;min-height:36px}
+.hbtn:hover{background:rgba(255,255,255,.22)}
+.screen{padding:22px 20px 28px;flex:1}
+.hidden{display:none!important}
+h2{font-size:21px;letter-spacing:-.3px;margin:4px 0 14px}
+h3{font-size:16px;margin:8px 0 4px}
+p{margin:6px 0}
+ul{padding-left:20px;margin:8px 0}
+.muted{color:var(--muted);font-size:13px}
+.card{background:#fff;border:1px solid #e8eeee;border-radius:18px;padding:17px;margin:12px 0;box-shadow:0 6px 20px rgba(22,55,61,.06)}
+.emergency{background:#fff5f4;border-color:#f2c9c5;box-shadow:none}
+.emergency h3,.emergency>b{color:#9b3028}
+.grid,.smallgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.feature{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:15px;min-height:112px;border:1px solid #e5eeee;border-radius:18px;background:#fff;text-align:left;font:inherit;color:var(--ink);cursor:pointer;box-shadow:0 4px 14px rgba(18,61,65,.05)}
+.feature:hover{border-color:#a9d8d4}
+.feature b{font-size:14px}
+.icon{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:var(--tint);font-size:22px}
+button{font-family:inherit;font-weight:600}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid #7cc9c3;outline-offset:2px}
+.primary,.secondary{display:block;width:100%;border-radius:13px;font-size:15px;cursor:pointer}
+.primary{padding:14px 16px;border:0;background:linear-gradient(135deg,var(--teal),var(--teal-d));color:#fff;margin-top:10px}
+.primary:hover{filter:brightness(1.06)}
+.secondary{padding:12px;border:1px solid #b9d9d7;background:#faffff;color:var(--teal-d);margin-top:9px}
+.secondary:hover{background:#edf8f7}
+.back{border:0;background:none;color:var(--teal-d);font-size:13px;padding:6px 0 10px;cursor:pointer}
+label{display:block;margin-top:12px;font-size:12.5px;font-weight:600;color:#38545a}
+input,select,textarea{width:100%;font:inherit;font-size:16px;padding:12px 13px;margin:6px 0 4px;background:#fff;color:var(--ink);border:1px solid #d1dfe0;border-radius:12px}
+input:focus,select:focus,textarea:focus{border-color:var(--teal)}
+.valid{border-color:#16966b!important;background:#f4fcf8!important}
+.invalid{border-color:#c63c32!important;background:#fff7f6!important}
+.fb{min-height:18px;margin:0 0 6px;font-size:12px;color:var(--muted)}
+.fb.ok,.live.ok{color:#087b54}.fb.error,.live.error{color:var(--red)}.fb.warn{color:#7b5700}
+.live{margin:4px 0 12px;padding:11px 13px;border-radius:12px;background:#eef7f7;border:1px solid #cfe5e5;font-size:12.5px;color:var(--muted)}
+.live.ok{background:#edf9f3;border-color:#c6e9d9}.live.warn{background:#fff8e8;border-color:#f0d99a;color:#7b5700}.live.error{background:#fff1ef;border-color:#efc0bb}
+.counter{text-align:right;font-size:11px;color:var(--muted)}
+.badge{display:inline-block;padding:4px 10px;border-radius:20px;background:#e6f7ef;color:#13764f;border:1px solid #ccebdc;font-size:12px;font-weight:700}
+.row{display:flex;gap:12px;align-items:center}
+.avatar{flex:0 0 50px;width:50px;height:50px;border-radius:50%;background:#e6f3f4;display:grid;place-items:center;font-size:24px}
+.small{padding:12px;border-radius:13px;background:#f1f8f7;border:1px solid #e2efed}.small b{font-size:20px;color:var(--teal-d)}
+.bar{height:8px;border-radius:8px;background:#dcebea;overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;background:var(--teal);transition:width .8s ease}
+.chat{height:230px;overflow:auto;background:#f0f7f7;border:1px solid #e2eeee;border-radius:16px;padding:12px;margin:12px 0}
+.bubble{max-width:82%;padding:9px 13px;border-radius:14px;margin:7px 0;font-size:13.5px;overflow-wrap:anywhere}
+.mine{margin-left:auto;background:var(--teal);color:#fff;border-bottom-right-radius:5px}
+.theirs{background:#fff;border:1px solid var(--line);border-bottom-left-radius:5px}
+.inputrow{display:flex;gap:8px}.inputrow input{margin:0}.inputrow .primary{width:auto;margin:0;padding:0 18px}
+nav{position:sticky;bottom:0;z-index:4;margin-top:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:3px;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom))}
+nav button{border:0;background:none;color:var(--muted);border-radius:12px;font-size:11px;line-height:1.5;padding:7px 2px;cursor:pointer}
+nav button.active{background:#eaf7f5;color:var(--teal-d)}
+#qr{display:grid;place-items:center;padding:14px;background:#fff;border:1px solid var(--line);border-radius:16px;margin:12px auto;width:max-content;max-width:100%;min-height:120px}
+#qr img,#qr canvas{max-width:100%;height:auto}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#16323a;color:#fff;padding:11px 18px;border-radius:12px;font-size:13px;max-width:calc(100vw - 32px);text-align:center;z-index:9;display:none;box-shadow:0 8px 25px #0003}
+@media(max-width:480px){body{padding:0;background:var(--canvas)}.app{max-width:none;min-height:100dvh;border:0;border-radius:0;box-shadow:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{header .hbtns,nav{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<div class="brand">
+<img src="icons/logo.jpg" alt="Help at Hand logo" width="62" height="38">
+<div><h1>Help at Hand</h1><p>Connect with healthcare professionals from wherever you are.</p></div>
+<div class="hbtns"><button class="hbtn" onclick="show('share')" aria-label="Install app or share by QR code">📲 QR</button><button id="logoutBtn" class="hbtn hidden" onclick="logout()">Sign out</button></div>
+</div>
+</header>
+<noscript><div class="screen"><div class="card">Please enable JavaScript to use Help at Hand.</div></div></noscript>
+
+<section id="login" class="screen">
+<div class="card">
+<h2>Secure access</h2><p class="muted">Sign in to connect with your healthcare team. This prototype stores demo data only on this device.</p>
+<label for="userName">Full name</label><input id="userName" autocomplete="name" placeholder="Enter your name" oninput="validateName()">
+<div id="nameFb" class="fb" aria-live="polite"></div>
+<label for="userPhone">Mobile number</label><input id="userPhone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+675 ..." oninput="validatePhone()">
+<div id="phoneFb" class="fb" aria-live="polite"></div>
+<label for="userRole">Account type</label><select id="userRole"><option value="patient">Patient</option><option value="doctor">Doctor</option></select>
+<button class="primary" onclick="login()">Continue</button>
+</div>
+<div class="card emergency"><b>🚨 Emergency</b><p class="muted">Do not wait for a teleconsultation for severe breathing difficulty, unconsciousness, severe bleeding, seizure, sudden collapse or another life-threatening condition.</p></div>
+</section>
+
+<section id="home" class="screen hidden">
+<div class="card"><b>Welcome<span id="welcomeName"></span></b><p class="muted">How can we help you today?</p><button class="primary" onclick="show('triage')">🩺 Talk to a Doctor</button></div>
+<div class="grid">
+<button class="feature" onclick="show('consult')"><span class="icon">📹</span><b>Video Consultation</b><span class="muted">Speak with a doctor</span></button>
+<button class="feature" onclick="show('appointment')"><span class="icon">📅</span><b>Book Appointment</b><span class="muted">Choose a time</span></button>
+<button class="feature" onclick="show('records')"><span class="icon">📋</span><b>My Records</b><span class="muted">Health information</span></button>
+<button class="feature" onclick="show('health')"><span class="icon">📚</span><b>Health Information</b><span class="muted">Learn about health</span></button>
+</div>
+<div class="card"><b>Upcoming appointment</b><p class="muted" id="upcomingText">No appointment booked yet.</p></div>
+<div class="card emergency"><b>🚨 Emergency?</b><p class="muted">If someone is unconscious, severely bleeding, having severe difficulty breathing, or otherwise critically ill, seek immediate emergency care rather than waiting for a virtual consultation.</p><button class="secondary" onclick="show('emergency')">Emergency Guidance</button></div>
+</section>
+
+<section id="triage" class="screen hidden">
+<button class="back" onclick="show('home')">← Back</button><h2>Talk to a Doctor</h2>
+<p class="muted">Tell us what you need help with. This prototype does not diagnose illness.</p>
+<label for="complaint">What is your main problem?</label><textarea id="complaint" rows="4" maxlength="500" placeholder="Example: fever and cough for 3 days" oninput="validateComplaint()"></textarea>
+<div class="counter"><span id="complaintCount">0</span>/500</div>
+<div id="complaintFb" class="live" aria-live="polite"></div>
+<label for="urgency">How urgent does it feel?</label><select id="urgency" onchange="validateUrgency()"><option value="routine">Not urgent</option><option value="today">Needs medical advice today</option><option value="severe">Very urgent / severe symptoms</option></select>
+<button class="primary" onclick="submitTriage()">Continue</button>
+</section>
+
+<section id="queue" class="screen hidden">
+<button class="back" onclick="show('home')">← Home</button><h2>Doctor Connection</h2>
+<div class="card"><span class="badge">● Doctor available</span><h3>General Medical Consultation</h3><p class="muted">Estimated wait: 8 minutes</p><p class="muted" id="queueSummary"></p><div class="bar"><i id="queueProgress"></i></div><button class="primary" onclick="show('consult')">Connect to Doctor</button></div>
+<div class="card row"><div class="avatar">👨‍⚕️</div><div><b>Dr. Available</b><p class="muted">General medicine</p></div></div>
+</section>
+
+<section id="consult" class="screen hidden">
+<button class="back" onclick="goBack()">← Back</button><h2>Consultation</h2>
+<div class="card" style="text-align:center;padding:30px"><div style="font-size:60px" aria-hidden="true">👨‍⚕️</div><h3>Doctor Consultation</h3><p class="muted">Secure voice/video consultation area (prototype)</p><span class="badge">Connected</span></div>
+<div class="chat" id="chatbox" aria-live="polite"></div>
+<div class="inputrow"><input id="chatInput" aria-label="Message" placeholder="Type a message..." autocomplete="off"><button class="primary" onclick="sendMessage()">Send</button></div>
+<div class="smallgrid" style="margin-top:12px"><button class="feature" id="micBtn" style="min-height:0" onclick="toggleMedia('micBtn','🎙️','Mute','Unmute')">🎙️<b>Mute</b></button><button class="feature" id="camBtn" style="min-height:0" onclick="toggleMedia('camBtn','📷','Camera off','Camera on')">📷<b>Camera off</b></button></div>
+<button class="primary" onclick="endConsult()">End Consultation</button>
+</section>
+
+<section id="appointment" class="screen hidden">
+<button class="back" onclick="show('home')">← Back</button><h2>Book Appointment</h2>
+<label for="dept">Department</label><select id="dept"><option>General Medicine</option><option>Paediatrics</option><option>Obstetrics &amp; Gynaecology</option><option>Surgery</option><option>Other</option></select>
+<label for="apptDate">Date</label><input id="apptDate" type="date" onchange="validateAppointment()">
+<div id="dateFb" class="fb" aria-live="polite"></div>
+<label for="apptTime">Time</label><select id="apptTime"><option>09:00 AM</option><option>10:00 AM</option><option>11:00 AM</option><option>02:00 PM</option><option>03:00 PM</option></select>
+<button class="primary" onclick="bookAppointment()">Confirm Appointment</button>
+</section>
+
+<section id="records" class="screen hidden">
+<button class="back" onclick="show('home')">← Back</button><h2>My Health Records</h2>
+<div class="card"><b>Patient Profile</b><p class="muted" id="profileText"></p></div>
+<div class="card"><b>Previous consultations</b><p class="muted">No consultations recorded in this prototype.</p></div>
+<div class="card"><b>Prescriptions</b><p class="muted">No prescriptions recorded.</p></div>
+</section>
+
+<section id="health" class="screen hidden">
+<button class="back" onclick="show('home')">← Back</button><h2>Health Information</h2>
+<div class="card"><b>Fever</b><p class="muted">Learn about common causes, warning signs and when to seek medical care.</p></div>
+<div class="card"><b>Snakebite</b><p class="muted">Seek urgent medical assessment after a suspected venomous snakebite. Avoid unsafe traditional or harmful first-aid methods.</p></div>
+<div class="card"><b>Breathing difficulty</b><p class="muted">Severe or rapidly worsening breathing difficulty requires urgent physical assessment.</p></div>
+</section>
+
+<section id="emergency" class="screen hidden">
+<button class="back" onclick="goBack()">← Back</button><h2>🚨 Emergency Guidance</h2>
+<div class="card emergency"><h3>Do not wait for a routine teleconsultation if there is:</h3><ul><li>Unconsciousness</li><li>Severe difficulty breathing</li><li>Severe bleeding</li><li>Seizure or sudden loss of consciousness</li><li>Severe chest pain or sudden collapse</li><li>Any rapidly life-threatening condition</li></ul><p><b>Call your local emergency number or go to the nearest health facility immediately.</b></p></div>
+<p class="muted">This prototype cannot contact emergency services on your behalf.</p>
+</section>
+
+<section id="doctor" class="screen hidden">
+<h2>Doctor Dashboard</h2>
+<div class="card"><span class="badge">● Available</span><h3>Good day, Doctor</h3><div class="smallgrid"><div class="small"><b>3</b><br><span class="muted">Waiting</span></div><div class="small"><b>12</b><br><span class="muted">Today</span></div></div></div>
+<div class="card row"><div class="avatar">👤</div><div><b>New patient request</b><p class="muted" id="doctorComplaint">No patient request yet.</p></div></div>
+<button class="primary" onclick="acceptPatient()">Accept Consultation</button><button class="secondary" onclick="toast('Patient marked as waiting')">Mark Waiting</button>
+</section>
+
+<section id="share" class="screen hidden">
+<button class="back" onclick="goBack()">← Back</button><h2>Install &amp; Share</h2>
+<div class="card" style="text-align:center"><b>Scan to open Help at Hand</b><div id="qr" aria-label="QR code"></div><p class="muted" id="qrUrl" style="overflow-wrap:anywhere"></p>
+<button class="secondary" onclick="copyLink()">Copy link</button><button class="secondary" id="shareBtn" onclick="shareLink()">Share…</button></div>
+<div class="card"><b>Install as an app</b><p class="muted" id="installHelp">Add Help at Hand to your home screen for full-screen, offline-ready use.</p><button class="primary" id="installBtn" onclick="installApp()">Install app</button></div>
+</section>
+
+<nav id="patientNav" class="hidden" aria-label="Main">
+<button data-s="home" onclick="show('home')">🏠<br>Home</button><button data-s="appointment" onclick="show('appointment')">📅<br>Appointments</button><button data-s="records" onclick="show('records')">📋<br>Records</button><button data-s="consult" onclick="show('consult')">💬<br>Consult</button>
+</nav>
+</div>
+<div id="toast" class="toast" role="status"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+<script>
+const store={get(k,d=''){try{return localStorage.getItem(k)??d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+let msgs=[];try{msgs=JSON.parse(store.get('hah_messages','[]'))}catch(e){}
+const S={role:store.get('hah_role'),name:store.get('hah_name'),phone:store.get('hah_phone'),complaint:store.get('hah_complaint'),appt:store.get('hah_appt'),messages:Array.isArray(msgs)?msgs:[]};
+const el=id=>document.getElementById(id);
+const esc=x=>String(x).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+const hist=[];let cur='';
+const PUBLIC=['login','share','emergency'];
+function show(id,back){
+ if(!S.role&&!PUBLIC.includes(id))id='login';
+ if(!back&&cur&&cur!==id)hist.push(cur);
+ document.querySelectorAll('.screen').forEach(x=>x.classList.add('hidden'));
+ el(id).classList.remove('hidden');cur=id;updateUI();window.scrollTo(0,0);
+ if(id==='triage'){validateComplaint()}
+ if(id==='appointment'){const d=el('apptDate');d.min=today();if(d.value)validateAppointment()}
+ if(id==='consult')renderMessages();
+ if(id==='share')renderQR();
+}
+function goBack(){const p=hist.pop();show(p||(S.role==='doctor'?'doctor':S.role?'home':'login'),true)}
+function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function toast(m){const t=el('toast');t.textContent=m;t.style.display='block';clearTimeout(window.tt);window.tt=setTimeout(()=>t.style.display='none',2600)}
+function mark(id,ok){const x=el(id);x.classList.toggle('valid',ok);x.classList.toggle('invalid',!ok)}
+function fb(id,msg,t){const x=el(id);x.textContent=msg;x.className='fb '+t}
+function validateName(){const v=el('userName').value.trim(),ok=v.length>=2&&/^[A-Za-zÀ-ÿ .'-]+$/.test(v);mark('userName',ok);fb('nameFb',!v?'Please enter your full name.':ok?'✓ Name looks good.':'Please use letters and spaces only.',ok?'ok':'error');return ok}
+function validatePhone(){const v=el('userPhone').value.trim(),d=v.replace(/\D/g,''),ok=/^[+\d\s()-]+$/.test(v)&&d.length>=7&&d.length<=15;mark('userPhone',ok);fb('phoneFb',!v?'A mobile number is needed for contact.':ok?'✓ Mobile number format looks acceptable.':'Please check the mobile number.',ok?'ok':'error');return ok}
+function login(){const a=validateName(),b=validatePhone();if(!a||!b){toast('Please correct the highlighted details.');return}
+ S.name=el('userName').value.trim();S.phone=el('userPhone').value.trim();S.role=el('userRole').value;
+ store.set('hah_name',S.name);store.set('hah_phone',S.phone);store.set('hah_role',S.role);hist.length=0;
+ toast('✓ Signed in.');show(S.role==='doctor'?'doctor':'home')}
+function logout(){['hah_role','hah_complaint','hah_messages'].forEach(store.del);S.role='';S.complaint='';S.messages=[];hist.length=0;show('login')}
+function validateComplaint(){const v=el('complaint').value.trim(),b=el('complaintFb');el('complaintCount').textContent=el('complaint').value.length;
+ if(el('urgency').value==='severe'){b.className='live warn';b.textContent='⚠️ You selected very urgent/severe symptoms. If this is life-threatening, seek immediate physical emergency care instead of waiting for a routine consultation.';return v.length>=10}
+ if(!v){b.className='live';b.textContent='Describe your symptoms, how long they have been present, and whether they are getting worse.';return false}
+ if(v.length<10){b.className='live warn';b.textContent='Please add a little more detail so the clinician can understand your concern.';return false}
+ b.className='live ok';b.textContent='✓ Good start. Include severity and anything that makes the symptoms better or worse if you can.';return true}
+const validateUrgency=validateComplaint;
+function submitTriage(){if(!validateComplaint()){toast('Please provide a little more detail first.');return}
+ const c=el('complaint').value.trim();S.complaint=c;store.set('hah_complaint',c);
+ if(el('urgency').value==='severe'){show('emergency');return}
+ el('queueSummary').textContent='Request received: '+c;el('queueProgress').style.width='35%';show('queue');setTimeout(()=>el('queueProgress').style.width='72%',1000)}
+function acceptPatient(){toast('✓ Patient accepted');show('consult')}
+function validateAppointment(){const d=el('apptDate').value;let ok=false,m='Please choose a date.';
+ if(d){ok=d>=today();m=ok?'✓ Date is valid.':'Please choose today or a future date.'}
+ mark('apptDate',ok);fb('dateFb',m,ok?'ok':'error');return ok}
+function bookAppointment(){if(!validateAppointment()){toast('Please correct the appointment date.');return}
+ S.appt=el('dept').value+' · '+el('apptDate').value+' at '+el('apptTime').value;store.set('hah_appt',S.appt);toast('✓ Appointment requested and saved.');updateUI()}
+function sendMessage(){const i=el('chatInput'),x=i.value.trim();if(!x)return;S.messages.push({from:'patient',text:x});save();renderMessages();i.value='';
+ setTimeout(()=>{S.messages.push({from:'doctor',text:'Thank you. Your message has been received by the care team.'});save();renderMessages()},700)}
+const save=()=>store.set('hah_messages',JSON.stringify(S.messages.slice(-100)));
+function renderMessages(){const b=el('chatbox');b.innerHTML='<div class="bubble theirs">Hello. I have received your request. Please describe your main concern.</div>'+S.messages.map(m=>'<div class="bubble '+(m.from==='patient'?'mine':'theirs')+'">'+esc(m.text)+'</div>').join('');b.scrollTop=b.scrollHeight}
+function toggleMedia(id,icon,a,b){const x=el(id),off=x.dataset.off!=='1';x.dataset.off=off?'1':'0';x.innerHTML=icon+'<b>'+(off?b:a)+'</b>';toast(off?b.replace(/^./,c=>c.toUpperCase())+' (prototype)':a+' (prototype)')}
+function endConsult(){toast('Consultation ended');hist.length=0;show(S.role==='doctor'?'doctor':'home')}
+function updateUI(){
+ el('patientNav').classList.toggle('hidden',S.role!=='patient');
+ el('logoutBtn').classList.toggle('hidden',!S.role);
+ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.s===cur));
+ el('welcomeName').textContent=S.name?', '+S.name.split(' ')[0]:'';
+ el('upcomingText').textContent=S.appt||'No appointment booked yet.';
+ el('profileText').innerHTML='Name: '+esc(S.name||'—')+'<br>Mobile: '+esc(S.phone||'—')+'<br>Blood group: Not entered<br>Allergies: Not entered';
+ el('doctorComplaint').textContent=S.complaint||'No patient request yet.'}
+/* QR, share, install */
+function appUrl(){return location.protocol.startsWith('http')?location.origin+location.pathname.replace(/index\.html$/,''):location.href}
+function renderQR(){const url=appUrl(),box=el('qr');el('qrUrl').textContent=url;box.innerHTML='';
+ if(!location.protocol.startsWith('http'))el('qrUrl').textContent+=' (open the hosted https:// address for a shareable QR code)';
+ if(window.QRCode){new QRCode(box,{text:url,width:200,height:200,colorDark:'#075e59',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M})}
+ else{box.textContent='QR code unavailable offline. Use “Copy link” instead.';setTimeout(()=>{if(cur==='share'&&window.QRCode&&!box.querySelector('canvas,img'))renderQR()},1500)}
+ el('shareBtn').classList.toggle('hidden',!navigator.share)}
+async function copyLink(){try{await navigator.clipboard.writeText(appUrl());toast('✓ Link copied')}catch(e){toast('Copy failed — select the link above')}}
+function shareLink(){navigator.share&&navigator.share({title:'Help at Hand',text:'Connect with healthcare professionals.',url:appUrl()}).catch(()=>{})}
+let dip=null;const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();dip=e;el('installBtn').classList.remove('hidden')});
+addEventListener('appinstalled',()=>{dip=null;toast('✓ App installed')});
+async function installApp(){if(!dip)return;dip.prompt();await dip.userChoice;dip=null;el('installBtn').classList.add('hidden')}
+(function(){const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+ if(standalone){el('installHelp').textContent='Help at Hand is already installed on this device.';el('installBtn').classList.add('hidden')}
+ else if(ios){el('installHelp').textContent='On iPhone/iPad: tap the Share button in Safari, then “Add to Home Screen”.';el('installBtn').classList.add('hidden')}
+ else el('installBtn').classList.add('hidden')})();
+addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='chatInput')sendMessage()});
+if('serviceWorker'in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+renderMessages();show(S.role==='doctor'?'doctor':S.role?'home':'login');
+</script>
+</body>
+</html>
